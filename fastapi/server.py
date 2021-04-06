@@ -9,9 +9,8 @@ import os
 import shutil
 
 app = FastAPI(
-    title="AnimeTransfer image segmentation",
+    title="AnimeTransfer image",
     description="""Anime will not be just anime""",
-    version="0.1.0",
 )
 
 from fastapi.middleware.cors import CORSMiddleware

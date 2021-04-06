@@ -1,11 +1,11 @@
 steps:
     - name: 'gcr.io/cloud-builders/docker'
-      args: ['build', '-t', 'gcr.io/$PROJECT_ID/fast_api_backend:latest', 'fastapi']
+      args: ['build', '-t', 'gcr.io/$PROJECT_ID/fastapi_animetransfer:latest', 'fastapi']
     - name: 'gcr.io/cloud-builders/docker'
-      args: ['push', 'gcr.io/$PROJECT_ID/fast_api_backend:latest']
+      args: ['push', 'gcr.io/$PROJECT_ID/fastapi_animetransfer:latest']
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
       entrypoint: gcloud
       timeout: 3000s
-      args: ['run', 'deploy', 'animetransfer', '--image', 'gcr.io/$PROJECT_ID/fast_api_backend:latest', '--region', 'asia-southeast1', '--platform', 'managed','--allow-unauthenticated']
+      args: ['run', 'deploy', 'animetransfer', '--image', 'gcr.io/$PROJECT_ID/fastapi_animetransfer:latest', '--region', 'asia-southeast1', '--platform', 'managed','--allow-unauthenticated']
       # ,"--set-env-vars=KEY1=VALUE1", "--set-env-vars=KEY1=VALUE1","--set-env-vars=KEY1=VALUE1"]
-images: ['gcr.io/$PROJECT_ID/fast_api_backend:latest']
+images: ['gcr.io/$PROJECT_ID/fastapi_animetransfer:latest']
