@@ -1,6 +1,6 @@
 steps:
     - name: 'gcr.io/cloud-builders/docker'
-      args: ['build', '-t', 'gcr.io/$PROJECT_ID/fast_api_backend:latest', '.']
+      args: ['build', '-t', 'gcr.io/$PROJECT_ID/fast_api_backend:latest', 'fastapi']
     - name: 'gcr.io/cloud-builders/docker'
       args: ['push', 'gcr.io/$PROJECT_ID/fast_api_backend:latest']
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
