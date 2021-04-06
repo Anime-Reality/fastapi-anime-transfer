@@ -1,4 +1,4 @@
-# streamlit-fastapi-model-serving
+# FAST API SERVER
 
 Simple example of usage of streamlit and FastAPI for ML model serving described on [this blogpost](https://davidefiocco.github.io/streamlit-fastapi-ml-serving) and [PyConES 2020 video](https://www.youtube.com/watch?v=IvHCxycjeR0).
 
