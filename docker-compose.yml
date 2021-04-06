@@ -1,23 +1,16 @@
-version: '3'
+version: "3"
 
 services:
   fastapi:
     build: fastapi/
-    ports: 
+    ports:
       - 8000:8000
     networks:
       - deploy_network
+    volumes:
+      - ./fastapi:/fastapi/fastapi
     container_name: fastapi
-
-  streamlit:
-    build: streamlit/
-    depends_on:
-      - fastapi
-    ports: 
-        - 8501:8501
-    networks:
-      - deploy_network
-    container_name: streamlit
+    command: sh -c "cd fastapi && rm -rf finish_processed_files uploaded_files && mkdir finish_processed_files uploaded_files  && uvicorn server:app --host 0.0.0.0 --port 8000 --reload"
 
 networks:
   deploy_network:
