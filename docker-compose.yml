@@ -10,7 +10,7 @@ services:
     volumes:
       - ./fastapi:/fastapi/fastapi
     container_name: fastapi
-    command: sh -c "cd fastapi && rm -rf finish_processed_files uploaded_files && mkdir finish_processed_files uploaded_files  && uvicorn server:app --host 0.0.0.0 --port 8000 --reload"
+    # command: sh -c "cd fastapi && rm -rf finish_processed_files uploaded_files && mkdir finish_processed_files uploaded_files  && uvicorn server:app --host 0.0.0.0 --port 8000 --reload"
 
 networks:
   deploy_network:
