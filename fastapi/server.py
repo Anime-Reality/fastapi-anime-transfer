@@ -2,35 +2,31 @@ import io
 
 # from segmentation import get_segmentator, get_segments
 from starlette.responses import Response
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
+from shutil import copyfile
 from fastapi.responses import FileResponse
+# from starlette.middleware import Middleware
+# from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import os
 import shutil
-
-app = FastAPI(
-    title="AnimeTransfer image segmentation",
-    description="""Anime will not be just anime""",
-    version="0.1.0",
-)
-
-from fastapi.middleware.cors import CORSMiddleware
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "*"
-]
-
+# origins = [
+#     "https://anime-transfer.netlify.app/",
+#     "*"
+# ]
+from starlette.middleware.cors import CORSMiddleware
+# middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
+# app = FastAPI(middleware=middleware,title="AnimeTransfer image",
+#     description="""Anime will not be just anime""",)
+app = FastAPI(title="AnimeTransfer image",
+    description="""Anime will not be just anime""",)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
     allow_credentials=True,
-    allow_methods=["*"],
+   allow_methods=["GET","POST","PUT","DELETE"],
     allow_headers=["*"],
 )
-
-from fastapi import FastAPI, File, UploadFile, HTTPException, Request
-from shutil import copyfile
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 
@@ -41,6 +37,7 @@ async def upload_image_file(file: UploadFile = File(...)):
     uuid_var = uuid.uuid4()
     filename = f"{'.'.join(file.filename.split('.')[:-1])}_{uuid_var}.{file.filename.split('.')[-1]}"
     filename = filename.strip()
+    print(os.listdir())
     file_location = UPLOAD_FOLDER_DIR + "/" + filename
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
@@ -68,8 +65,3 @@ async def download_finished_files(filename: str):
     if filename not in finish_processed_files :
         raise HTTPException(status_code=400, detail="Error, file not finished")
     return FileResponse(path=f"finish_processed_files/{filename}")
-
-# async def get_status()
-
-
-
