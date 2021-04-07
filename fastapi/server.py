@@ -4,6 +4,7 @@ import io
 from starlette.responses import Response
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import os
 import shutil
@@ -12,19 +13,15 @@ app = FastAPI(
     title="AnimeTransfer image",
     description="""Anime will not be just anime""",
 )
-
-from fastapi.middleware.cors import CORSMiddleware
 origins = [
-    "http://localhost",
-    "http://localhost:8080",
     "https://anime-transfer.netlify.app/",
-    "anime-transfer.netlify.app"
+    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -69,8 +66,3 @@ async def download_finished_files(filename: str):
     if filename not in finish_processed_files :
         raise HTTPException(status_code=400, detail="Error, file not finished")
     return FileResponse(path=f"finish_processed_files/{filename}")
-
-# async def get_status()
-
-
-
