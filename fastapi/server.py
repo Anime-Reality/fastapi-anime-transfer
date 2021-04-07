@@ -2,32 +2,30 @@ import io
 
 # from segmentation import get_segmentator, get_segments
 from starlette.responses import Response
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
+from shutil import copyfile
 from fastapi.responses import FileResponse
+from starlette.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import os
 import shutil
-
-app = FastAPI(
-    title="AnimeTransfer image",
-    description="""Anime will not be just anime""",
-)
 # origins = [
 #     "https://anime-transfer.netlify.app/",
 #     "*"
 # ]
+from starlette.middleware.cors import CORSMiddleware
+middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
+app = FastAPI(middleware=middleware,title="AnimeTransfer image",
+    description="""Anime will not be just anime""",)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-from fastapi import FastAPI, File, UploadFile, HTTPException, Request
-from shutil import copyfile
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 
