@@ -13,14 +13,14 @@ app = FastAPI(
     title="AnimeTransfer image",
     description="""Anime will not be just anime""",
 )
-origins = [
-    "https://anime-transfer.netlify.app/",
-    "*"
-]
+# origins = [
+#     "https://anime-transfer.netlify.app/",
+#     "*"
+# ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
