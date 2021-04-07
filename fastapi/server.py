@@ -30,7 +30,7 @@ app.add_middleware(
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 
-@app.post("/file/upload/")
+@app.post("/file/upload")
 async def upload_image_file(file: UploadFile = File(...)):
     if( "image" not in file.content_type) :
         raise HTTPException(status_code=400, detail="Request file bad content type -- need image content_type")
