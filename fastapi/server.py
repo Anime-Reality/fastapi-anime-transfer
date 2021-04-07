@@ -5,8 +5,8 @@ from starlette.responses import Response
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from shutil import copyfile
 from fastapi.responses import FileResponse
-from starlette.middleware import Middleware
-from fastapi.middleware.cors import CORSMiddleware
+# from starlette.middleware import Middleware
+# from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import os
 import shutil
@@ -15,21 +15,22 @@ import shutil
 #     "*"
 # ]
 from starlette.middleware.cors import CORSMiddleware
-middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
-app = FastAPI(middleware=middleware,title="AnimeTransfer image",
+# middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
+# app = FastAPI(middleware=middleware,title="AnimeTransfer image",
+#     description="""Anime will not be just anime""",)
+app = FastAPI(title="AnimeTransfer image",
     description="""Anime will not be just anime""",)
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 
-@app.post("/file/upload")
+@app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
     if( "image" not in file.content_type) :
         raise HTTPException(status_code=400, detail="Request file bad content type -- need image content_type")
