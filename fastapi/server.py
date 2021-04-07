@@ -24,7 +24,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
     allow_credentials=True,
-    allow_methods=["*"],
+   allow_methods=["GET","POST","PUT","DELETE"],
     allow_headers=["*"],
 )
 FINISH_FOLDER_DIR = "finish_processed_files"
