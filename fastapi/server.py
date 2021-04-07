@@ -20,7 +20,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080","https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
+    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
