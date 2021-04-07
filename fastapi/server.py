@@ -40,6 +40,7 @@ async def upload_image_file(file: UploadFile = File(...)):
     uuid_var = uuid.uuid4()
     filename = f"{'.'.join(file.filename.split('.')[:-1])}_{uuid_var}.{file.filename.split('.')[-1]}"
     filename = filename.strip()
+    print(os.listdir())
     file_location = UPLOAD_FOLDER_DIR + "/" + filename
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
