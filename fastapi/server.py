@@ -10,10 +10,7 @@ from fastapi.responses import FileResponse
 import uuid
 import os
 import shutil
-# origins = [
-#     "https://anime-transfer.netlify.app/",
-#     "*"
-# ]
+
 from starlette.middleware.cors import CORSMiddleware
 # middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
 # app = FastAPI(middleware=middleware,title="AnimeTransfer image",
@@ -22,7 +19,7 @@ app = FastAPI(title="AnimeTransfer image",
     description="""Anime will not be just anime""",)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/"],
+    allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/","http://localhost:8080"],
     allow_credentials=True,
    allow_methods=["GET","POST","PUT","DELETE"],
     allow_headers=["*"],
