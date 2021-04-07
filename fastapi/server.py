@@ -30,7 +30,7 @@ app.add_middleware(
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 
-@app.post("/file/upload")
+@app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
     if( "image" not in file.content_type) :
         raise HTTPException(status_code=400, detail="Request file bad content type -- need image content_type")
@@ -45,18 +45,18 @@ async def upload_image_file(file: UploadFile = File(...)):
     copyfile(file_location, f"{FINISH_FOLDER_DIR}/{filename}")
     return { "filename": filename, "uuid": uuid_var }
 
-@app.get("/file/find_all")
+@app.get("/file/find_all/")
 async def find_files():
     file_list = os.listdir(UPLOAD_FOLDER_DIR)
     finished_file_list = os.listdir(FINISH_FOLDER_DIR)
     status_files = [ "finished" if file in finished_file_list else "not-finished" for file in file_list ]
     return [ { "file": file_list[i] , "status": status_files[i] } for i in range(len(file_list))]
 
-@app.get("/file/delete")
+@app.get("/file/delete/")
 async def delete_file(filename: str) :
     os.remove(UPLOAD_FOLDER_DIR + "/" + filename)
 
-@app.get("/file/download_finished")
+@app.get("/file/download_finished/")
 async def download_finished_files(filename: str):
     finish_processed_files = os.listdir('finish_processed_files')
     print(finish_processed_files)
