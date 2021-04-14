@@ -11,6 +11,8 @@ import uuid
 import os
 import shutil
 
+from cartoonize import cartoonize
+
 from starlette.middleware.cors import CORSMiddleware
 # middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
 # app = FastAPI(middleware=middleware,title="AnimeTransfer image",
@@ -26,6 +28,7 @@ app.add_middleware(
 )
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
+MODEL_PATH = 'saved_models'
 
 @app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
@@ -39,7 +42,9 @@ async def upload_image_file(file: UploadFile = File(...)):
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
 
-    copyfile(file_location, f"{FINISH_FOLDER_DIR}/{filename}")
+    cartoonize(filename, UPLOAD_FOLDER_DIR, FINISH_FOLDER_DIR, MODEL_PATH)
+    
+    # copyfile(file_location, f"{FINISH_FOLDER_DIR}/{filename}")
     return { "filename": filename, "uuid": uuid_var }
 
 @app.get("/file/find_all/")

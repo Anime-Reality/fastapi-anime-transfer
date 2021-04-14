@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn:python3.7
+FROM tiangolo/uvicorn-gunicorn:python3.6
 
 RUN mkdir /fastapi
 
@@ -7,6 +7,8 @@ COPY requirements.txt /fastapi
 WORKDIR /fastapi
 
 RUN pip install -r requirements.txt
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 COPY . /fastapi
 RUN mkdir finish_processed_files uploaded_files
