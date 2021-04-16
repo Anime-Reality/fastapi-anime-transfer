@@ -22,16 +22,10 @@ def resize_crop(image):
     return image
 
 def initialize_model(model_path) :
-    all_vars = tf.trainable_variables()
-    gene_vars = [var for var in all_vars if 'generator' in var.name]
-    saver = tf.train.Saver(var_list=gene_vars)
     
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     sess = tf.Session(config=config)
-
-    sess.run(tf.global_variables_initializer())
-    saver.restore(sess, tf.train.latest_checkpoint(model_path))
     return sess
     
 def cartoonize(name, load_folder, save_folder, sess):
