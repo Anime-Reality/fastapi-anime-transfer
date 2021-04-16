@@ -20,12 +20,8 @@ def resize_crop(image):
     h, w = (h//8)*8, (w//8)*8
     image = image[:h, :w, :]
     return image
-    
-def cartoonize(name, load_folder, save_folder, model_path):
-    input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
-    network_out = network.unet_generator(input_photo)
-    final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
 
+def initialize_model(model_path) :
     all_vars = tf.trainable_variables()
     gene_vars = [var for var in all_vars if 'generator' in var.name]
     saver = tf.train.Saver(var_list=gene_vars)
@@ -36,6 +32,11 @@ def cartoonize(name, load_folder, save_folder, model_path):
 
     sess.run(tf.global_variables_initializer())
     saver.restore(sess, tf.train.latest_checkpoint(model_path))
+    
+def cartoonize(name, load_folder, save_folder, model_path):
+    input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
+    network_out = network.unet_generator(input_photo)
+    final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
     # name_list = os.listdir(load_folder)
     
     inference_times = [ ]

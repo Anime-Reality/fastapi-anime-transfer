@@ -9,7 +9,7 @@ import uuid
 import os
 import shutil
 
-from cartoonize import cartoonize
+from cartoonize import cartoonize, initialize_model
 
 from starlette.middleware.cors import CORSMiddleware
 
@@ -27,6 +27,8 @@ FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 MODEL_PATH = 'saved_models'
 
+global_sess = initialize_model(MODEL_PATH)
+
 @app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
     if( "image" not in file.content_type) :
@@ -34,12 +36,11 @@ async def upload_image_file(file: UploadFile = File(...)):
     uuid_var = uuid.uuid4()
     filename = f"{'.'.join(file.filename.split('.')[:-1])}_{uuid_var}.{file.filename.split('.')[-1]}"
     filename = filename.strip()
-    print(os.listdir())
     file_location = UPLOAD_FOLDER_DIR + "/" + filename
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
 
-    cartoonize(filename, UPLOAD_FOLDER_DIR, FINISH_FOLDER_DIR, MODEL_PATH)
+    cartoonize(filename, UPLOAD_FOLDER_DIR, FINISH_FOLDER_DIR,global_sess)
     
     # copyfile(file_location, f"{FINISH_FOLDER_DIR}/{filename}")
     return { "filename": filename, "uuid": uuid_var }
@@ -58,9 +59,6 @@ async def delete_file(filename: str) :
 @app.get("/file/download_finished/")
 async def download_finished_files(filename: str):
     finish_processed_files = os.listdir('finish_processed_files')
-    print(finish_processed_files)
-    print(filename)
-    print(filename in finish_processed_files)
     if filename not in finish_processed_files :
         raise HTTPException(status_code=400, detail="Error, file not finished")
     return FileResponse(path=f"finish_processed_files/{filename}")
