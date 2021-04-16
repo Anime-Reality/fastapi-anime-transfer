@@ -32,8 +32,9 @@ def initialize_model(model_path) :
 
     sess.run(tf.global_variables_initializer())
     saver.restore(sess, tf.train.latest_checkpoint(model_path))
+    return sess
     
-def cartoonize(name, load_folder, save_folder, model_path):
+def cartoonize(name, load_folder, save_folder, sess):
     input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
     network_out = network.unet_generator(input_photo)
     final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
