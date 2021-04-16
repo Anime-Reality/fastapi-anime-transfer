@@ -28,6 +28,11 @@ UPLOAD_FOLDER_DIR = "uploaded_files"
 MODEL_PATH = 'saved_models'
 
 global_sess = initialize_model(MODEL_PATH)
+all_vars = tf.trainable_variables()
+gene_vars = [var for var in all_vars if 'generator' in var.name]
+saver = tf.train.Saver(var_list=gene_vars)
+global_sess.run(tf.global_variables_initializer())
+saver.restore(global_sess, tf.train.latest_checkpoint(model_path))
 
 @app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
