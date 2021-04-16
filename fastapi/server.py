@@ -7,6 +7,7 @@ from shutil import copyfile
 from fastapi.responses import FileResponse
 import uuid
 import os
+import tensorflow as tf
 import shutil
 
 from cartoonize import cartoonize, initialize_model
