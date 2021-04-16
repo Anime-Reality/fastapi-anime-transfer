@@ -5,8 +5,6 @@ from starlette.responses import Response
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from shutil import copyfile
 from fastapi.responses import FileResponse
-# from starlette.middleware import Middleware
-# from fastapi.middleware.cors import CORSMiddleware
 import uuid
 import os
 import shutil
@@ -14,11 +12,9 @@ import shutil
 from cartoonize import cartoonize
 
 from starlette.middleware.cors import CORSMiddleware
-# middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
-# app = FastAPI(middleware=middleware,title="AnimeTransfer image",
-#     description="""Anime will not be just anime""",)
+
 app = FastAPI(title="AnimeTransfer image",
-    description="""Anime will not be just anime""",)
+    description="""Anime will not be just anime""")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://anime-transfer.netlify.app/","https://anime-transfer.netlify.app", "anime-transfer.netlify.app", "anime-transfer.netlify.app/","http://localhost:8080"],
@@ -26,6 +22,7 @@ app.add_middleware(
    allow_methods=["GET","POST","PUT","DELETE"],
     allow_headers=["*"],
 )
+
 FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 MODEL_PATH = 'saved_models'
