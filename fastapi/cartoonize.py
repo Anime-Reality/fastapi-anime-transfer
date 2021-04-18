@@ -27,9 +27,9 @@ def initialize_model(model_path) :
     sess = tf.Session(config=config)
     return sess
     
-def cartoonize(name, load_folder, save_folder, sess):
+def cartoonize(name, load_folder, save_folder, sess,reuse=False):
     input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
-    network_out = network.unet_generator(input_photo, reuse=True)
+    network_out = network.unet_generator(input_photo, reuse=reuse)
     final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
     # name_list = os.listdir(load_folder)
     
