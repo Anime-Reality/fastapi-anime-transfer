@@ -29,7 +29,7 @@ def initialize_model(model_path) :
     
 def cartoonize(name, load_folder, save_folder, sess):
     input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
-    network_out = network.unet_generator(input_photo)
+    network_out = network.unet_generator(input_photo, reuse=True)
     final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
     # name_list = os.listdir(load_folder)
     
