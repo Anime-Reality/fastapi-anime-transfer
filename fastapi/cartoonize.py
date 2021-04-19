@@ -28,6 +28,12 @@ def initialize_model(model_path) :
     return sess
     
 def cartoonize(name, load_folder, save_folder, sess):
+    global_sess = initialize_model(MODEL_PATH)
+    all_vars = tf.trainable_variables()
+    gene_vars = [var for var in all_vars if 'generator' in var.name]
+    saver = tf.train.Saver(var_list=gene_vars)
+    global_sess.run(tf.global_variables_initializer())
+    saver.restore(global_sess, tf.train.latest_checkpoint(model_path))
     input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
     network_out = network.unet_generator(input_photo)
     final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
