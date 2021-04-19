@@ -28,17 +28,15 @@ FINISH_FOLDER_DIR = "finish_processed_files"
 UPLOAD_FOLDER_DIR = "uploaded_files"
 MODEL_PATH = 'saved_models'
 
-global_sess = initialize_model(MODEL_PATH)
-all_vars = tf.trainable_variables()
-gene_vars = [var for var in all_vars if 'generator' in var.name]
-saver = tf.train.Saver(var_list=gene_vars)
-global_sess.run(tf.global_variables_initializer())
-saver.restore(global_sess, tf.train.latest_checkpoint(model_path))
-reuse=False
-
 @app.post("/file/upload/")
 async def upload_image_file(file: UploadFile = File(...)):
-    global reuse
+    tf.reset_default_graph()
+    global_sess = initialize_model(MODEL_PATH)
+    all_vars = tf.trainable_variables()
+    gene_vars = [var for var in all_vars if 'generator' in var.name]
+    saver = tf.train.Saver(var_list=gene_vars)
+    global_sess.run(tf.global_variables_initializer())
+    saver.restore(global_sess, tf.train.latest_checkpoint(model_path))
     if( "image" not in file.content_type) :
         raise HTTPException(status_code=400, detail="Request file bad content type -- need image content_type")
     uuid_var = uuid.uuid4()
