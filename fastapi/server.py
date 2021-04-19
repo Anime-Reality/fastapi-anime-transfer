@@ -48,8 +48,7 @@ async def upload_image_file(file: UploadFile = File(...)):
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
 
-    cartoonize(filename, UPLOAD_FOLDER_DIR, FINISH_FOLDER_DIR,global_sess,reuse=reuse)
-    reuse = True
+    cartoonize(filename, UPLOAD_FOLDER_DIR, FINISH_FOLDER_DIR,global_sess)
     # copyfile(file_location, f"{FINISH_FOLDER_DIR}/{filename}")
     return { "filename": filename, "uuid": uuid_var }
 
