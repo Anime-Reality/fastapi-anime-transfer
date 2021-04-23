@@ -2,3 +2,5 @@
 .devcontainer/
 *.pyc
 **/.DS_Store
+fastapi/finish_processed_files
+fastapi/uploaded_files

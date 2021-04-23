@@ -11,6 +11,6 @@ RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 COPY . /fastapi
-RUN mkdir finish_processed_files uploaded_files
+RUN mkdir -p finish_processed_files uploaded_files
 EXPOSE 8000
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
